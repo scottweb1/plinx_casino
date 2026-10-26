@@ -1,0 +1,19 @@
+/* Grundtema: mørkeblåt casino. Baggrunden er ren CSS (ingen eksterne billeder). */
+:root{--bg:#071a33;--panel:rgba(18,42,76,.88);--field:rgba(8,24,46,.92);--line:#2c4a73;--ink:#fff;--mute:#a9bbd6;--green:#1eff00;--gold:#ffd23f;
+  color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:600;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% 0%,rgba(255,200,70,.14),transparent 70%),
+    radial-gradient(ellipse 55% 45% at 90% 8%,rgba(60,130,255,.20),transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 110%,rgba(20,70,160,.35),transparent 70%),
+    repeating-linear-gradient(45deg,rgba(255,255,255,.015) 0 2px,transparent 2px 14px),
+    linear-gradient(#0a2447,#061428 70%);
+  background-attachment:fixed}
+#root{position:relative;z-index:1}
+.gold-dust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.fx-layer{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+button{-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}

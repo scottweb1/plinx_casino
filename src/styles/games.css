@@ -1,0 +1,34 @@
+/* Lobby og spil: Mines, Slots, Limbo, Wheel (fra den oprindelige index.html) */
+.lobby{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:10px}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:0 0 16px;color:var(--ink);font:inherit;text-align:left;cursor:pointer;display:grid;gap:6px;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,231,1,.18);border-color:var(--green)}
+.card b{font-size:20px;padding:0 16px}.card span{color:var(--mute);font-size:14px;font-weight:500;padding:0 16px}
+.thumb{height:150px;display:grid;place-items:center;font-size:64px}
+.mgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;width:min(100%,520px);margin:auto;padding:12px}
+.tile{aspect-ratio:1;border:1px solid var(--line);border-radius:12px;background:linear-gradient(#2f4553,#1a2c38);box-shadow:0 4px 0 #0b1821;cursor:pointer;display:grid;place-items:center;font-size:clamp(24px,7vw,44px);transition:transform .12s,box-shadow .12s;padding:0}
+.tile:not(:disabled):hover{transform:translateY(-3px);box-shadow:0 7px 0 #0b1821,0 0 18px rgba(0,231,1,.3)}
+.tile:disabled{cursor:default}
+.tile svg{width:58%;filter:drop-shadow(0 0 8px #00e5a0)}
+.tile.gem{background:linear-gradient(#0f3d36,#0b2a28);border-color:#00e5a0;animation:mflip .35s ease-out,mglow 1s ease-out}
+.tile.mine{background:linear-gradient(#5a1620,#2b0b10);border-color:#ff4d4d}
+.tile.hit{animation:mboom .5s ease-out;box-shadow:0 0 30px #ff2d2d}
+.tile.dim{opacity:.45}
+.machine{padding:18px;border-radius:20px;border:6px solid transparent;background:linear-gradient(#10233a,#07111c) padding-box,linear-gradient(135deg,#fff3b0,#f5b301 30%,#8a5a00 55%,#ffd95a 80%,#fff3b0) border-box;box-shadow:0 0 40px rgba(255,190,40,.3)}
+.cell.hit{box-shadow:0 0 0 3px #ffd23f,0 0 24px rgba(255,210,63,.7);animation:mglow 1s ease-out}
+.ctl{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end}
+.pt{margin-top:14px;color:var(--mute);font-size:14px}.pt table{width:100%;border-collapse:collapse}.pt td{padding:5px 6px;border-top:1px solid var(--line)}
+.lbox{display:grid;place-items:center;align-content:center;gap:6px;min-height:280px;border-radius:16px;background:radial-gradient(circle,#12304a,#07111c);border:2px solid var(--line)}
+.lnum{font-size:clamp(56px,16vw,140px);font-weight:900;font-variant-numeric:tabular-nums;color:#fff;line-height:1;transition:color .2s,text-shadow .2s}
+.lnum.rolling{color:#cfe6ff}
+.lnum.win{color:#00e5a0;text-shadow:0 0 40px #00e5a0;animation:lpop .4s ease-out}
+.lnum.lose{color:#ff6b4a;text-shadow:0 0 30px rgba(255,77,42,.7)}
+.ltg{color:var(--mute);font-size:15px}
+.rec{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+.rec span{padding:4px 9px;border-radius:999px;font-size:13px;background:var(--line)}
+.rec .w{background:#0f5a3d;color:#7dffc0}.rec .l{background:#5a2a1f;color:#ffb4a0}
+.wheelsvg{width:min(100%,520px);margin:auto;display:block;filter:drop-shadow(0 0 24px rgba(255,190,40,.25))}
+@keyframes lpop{from{transform:scale(.8)}}
+@keyframes mflip{from{transform:rotateY(90deg) scale(.8)}}
+@keyframes mglow{from{box-shadow:0 0 30px #00e5a0}}
+@keyframes mboom{30%{transform:scale(1.25)}60%{transform:scale(.95) rotate(2deg)}}
+@media(max-width:820px){.ctl{grid-template-columns:1fr}}
