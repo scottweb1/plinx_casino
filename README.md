@@ -29,6 +29,32 @@ Kræver Node.js 18 eller nyere.
 - Responsivt design til både mobil og computer.
 - **History** (knap i topbaren) viser de seneste 200 runder med statistik. **Refill** giver ekstra legepenge uden at ændre din gevinst/tab.
 
+## Konti og leaderboard (Supabase)
+
+Man kan oprette en konto med **brugernavn + adgangskode**. Der bruges ingen mail, så mistet kode = konto kan ikke gendannes.
+Saldo og statistik gemmes online, så man kan logge ind fra en anden enhed. Spillet kører lokalt, og ændringer sendes til Supabase
+et øjeblik efter hver runde (indikatoren i topbaren viser *saving...* / *saved*). **Leaderboard** (knap i topbaren) kan sorteres efter
+**flest penge** (standard), **mest vundet** og **mest tabt**. *Won/Lost* er summen af nettogevinster/-tab pr. runde.
+Man kan stadig spille **offline** (kun på enheden, ikke på leaderboardet).
+
+### Opsætning (én gang)
+1. Åbn Supabase -> **SQL Editor**, og kør hele filen `supabase/migrations/20261027000000_init.sql`
+   (eller `supabase link --project-ref <ref>` og `supabase db push`).
+2. Supabase -> **Authentication -> Providers -> Email**: slå **Confirm email** FRA. (Ellers kræves en mail-bekræftelse.)
+3. (Valgfrit) Authentication -> Providers -> Email -> *Minimum password length*. Spillet kræver mindst 6 tegn.
+4. Kopiér `.env.example` til `.env` og indsæt projekt-URL og **publishable key**. Start derefter med `npm run dev`.
+
+Læg **aldrig** databasens adgangskode eller en `service_role`-nøgle i projektet. Browseren skal kun bruge den offentlige *publishable key*;
+beskyttelsen ligger i Row Level Security i SQL-filen (alle indloggede kan læse leaderboardet, men man kan kun ændre sin egen række).
+
+**Sådan virker login uden mail:** Supabase Auth kræver en mail, så spillet laver en falsk én ud fra brugernavnet
+(`plinko.<navn>@gmail.com`; navne med æøå kodes). Der sendes aldrig mails. Hvis oprettelse afvises med en besked om mail-domænet,
+så sæt `VITE_AUTH_EMAIL_DOMAIN` i `.env` til et andet rigtigt domæne.
+
+**Begrænsning:** spillene kører i browseren, så en teknisk kyndig spiller kan sende falske tal til sin egen række. Reglerne i SQL
+forhindrer kun at navnet ændres, at tællere går baglæns og at man rører andres rækker. Det er fint til venner og legepenge,
+men leaderboardet er ikke snyde-sikkert.
+
 ## Coinflip
 
 Mønten har tre sider: **Heads 40 %** (2×), **Tails 40 %** (2×) og **Edge 20 %** (4×). Alle tre valg har samme forventede tilbagebetaling (80 %).
@@ -51,12 +77,18 @@ src/
   hooks/        useStores, useAuto
   effects/      fxBus (mønt-udbrud)
   styles/       base.css, ui.css, games.css, jackpot.css, extras.css
-tests/          wallet.test.js, math.test.js, coinflip.test.js
+supabase/       migrations/ (SQL til tabel, regler og trigger)
+tests/          wallet, math, coinflip, devluck, cloud, email (+ mocks/ til browsertest)
 ```
+
+## Dev-hæld (Scott / ScottW)
+
+`src/dev/devLuck.js` giver spillerne `Scott` og `ScottW` skæve Plinko-baner (samme som i den gamle version). Slå fra med `DEV_LUCK_ENABLED = false`.
+Brug det kun til test: det påvirker leaderboardet, hvis navnene bruges til rigtige konti.
 
 ## Ændringer ift. den gamle `index.html`
 
-- Den skjulte manipulation i Plinko, hvor spillerne `Scott` og `ScottW` fik styrede baner, er **fjernet**, så alle spillere har samme odds.
+- Manipulationen af `Scott`/`ScottW` i Plinko ligger nu i det separate dev-modul (se ovenfor).
 - Den usynlige knap, der gav gratis penge, er erstattet af den synlige **Refill**-knap.
 - Baggrundsbilledet, der var hotlinket fra en stockfoto-side, er erstattet af en ren CSS-baggrund i mørkeblåt casinotema.
 - Jackpot-jinglen er flyttet fra base64 i koden til filen `src/assets/jackpot.mp3`.

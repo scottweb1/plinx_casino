@@ -11,6 +11,7 @@ import Wheel from './games/wheel/Wheel.jsx';
 import Coinflip from './games/coinflip/Coinflip.jsx';
 import { useWallet } from './hooks/useStores.js';
 import { walletStore } from './lib/walletStore.js';
+import { restoreSession, signOut } from './lib/cloud.js';
 import { initAudio } from './audio/engine.js';
 import { detectMusic, syncMusic } from './audio/music.js';
 import { sfx } from './audio/sfx.js';
@@ -22,6 +23,8 @@ if (import.meta.env.DEV) window.__casino = { walletStore };
 export default function App() {
   const w = useWallet();
   const [view, setView] = useState('lobby');
+  const [booting, setBooting] = useState(true);
+  useEffect(() => { restoreSession().finally(() => setBooting(false)); }, []);
 
   // Kliklyd på alle knapper + lyd låses op ved første berøring
   useEffect(() => {
@@ -35,9 +38,10 @@ export default function App() {
     return () => { document.removeEventListener('click', click); document.removeEventListener('pointerdown', first); };
   }, []);
 
-  const exit = () => { walletStore.logout(); setView('lobby'); };
+  const exit = async () => { if (w && w.cloud) await signOut(); else walletStore.logout(); setView('lobby'); };
   let page;
-  if (!w) page = <Start />;
+  if (booting && !w) page = <div className="wrap"><p className="boot">Loading...</p></div>;
+  else if (!w) page = <Start />;
   else if (view === 'lobby') page = <Lobby go={setView} onExit={exit} />;
   else {
     const Game = GAMES[view];

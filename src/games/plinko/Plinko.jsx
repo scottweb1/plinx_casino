@@ -11,6 +11,7 @@ import { walletStore } from '../../lib/walletStore.js';
 import { toCents, mulCents, fmt } from '../../lib/money.js';
 import { tierFor } from '../../lib/config.js';
 import { randFloat, randRange } from '../../lib/rng.js';
+import { applyDevLuck } from '../../dev/devLuck.js';
 import { sfx } from '../../audio/sfx.js';
 import { fx } from '../../effects/fxBus.js';
 
@@ -34,7 +35,7 @@ export default function Plinko({ onLobby, onExit }) {
   const drop = () => {
     const c = cfg.current, stake = toCents(c.bet);
     if (!stake || jqR.current.length) return false;
-    const dirs = randomDirs(c.rows), k = dirs.reduce((a, b) => a + b, 0);
+    const dirs = applyDevLuck(walletStore.getState()?.name, c.rows, c.risk, randomDirs(c.rows)), k = dirs.reduce((a, b) => a + b, 0);
     const mult = PAYTABLE[c.rows][c.risk][k], payout = mulCents(stake, mult);
     const id = walletStore.placeBet('plinko', stake, { escrow: payout });
     if (!id) return false;

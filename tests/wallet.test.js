@@ -51,10 +51,11 @@ test('Mines-runde bevares til genoptagelse', () => {
   assert.equal(W.getState().bal, 49000);
 });
 
-test('refill ændrer ikke P/L', () => {
+test('refill tæller som profit (P/L stiger med startbeløbet)', () => {
   W.create('Finn', 500);
   const before = W.getState().bal - W.getState().base;
   W.topUp();
-  assert.equal(W.getState().bal - W.getState().base, before);
+  assert.equal(W.getState().bal - W.getState().base, before + 50000);
   assert.equal(W.getState().bal, 100000);
+  assert.equal(W.getState().won, 0); // leaderboardets "vundet" røres ikke
 });

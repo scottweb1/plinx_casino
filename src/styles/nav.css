@@ -1,0 +1,94 @@
+/* Navigation / topbar. Importeres af TopBar.jsx. */
+.nav{position:sticky;top:8px;z-index:30;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px 16px;
+  margin:0 0 14px;padding:10px 14px;border-radius:16px;color:var(--ink);
+  background:linear-gradient(180deg,rgba(18,44,82,.92),rgba(8,24,46,.92));
+  border:1px solid rgba(255,210,63,.28);box-shadow:0 8px 28px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.07);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.nav button{font:inherit;color:inherit;margin:0;text-decoration:none}
+
+/* Logo */
+.nav-brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:4px 6px;border-radius:10px;cursor:pointer;text-align:left}
+.nav-brand.static{cursor:default}
+.nav-brand:not(.static):not(:disabled):hover{background:rgba(255,255,255,.06)}
+.nav-brand:disabled{cursor:not-allowed;opacity:.7}
+.nav-logo{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,#17407a,#0a2447);border:1px solid rgba(255,210,63,.4);box-shadow:0 0 14px rgba(255,210,63,.18)}
+.nav-logo svg{width:26px;height:26px}
+.nav-name{display:grid;line-height:1.05;font-weight:900;font-size:17px;letter-spacing:.02em}
+.nav-name em{font-style:normal;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold)}
+
+/* Saldo */
+.nav-bal{justify-self:center;display:flex;align-items:baseline;gap:10px;padding:7px 18px;border-radius:999px;background:rgba(3,12,26,.7);border:1px solid var(--line);
+  font-variant-numeric:tabular-nums;transition:border-color .3s,box-shadow .3s}
+.nb-l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.nb-v{font-size:22px;font-weight:900;color:#ffe27a;text-shadow:0 0 14px rgba(255,210,63,.25)}
+.nb-pl{font-size:13px;font-weight:800}
+.nb-pl.up{color:var(--green)}.nb-pl.down{color:#ff7a7a}
+.nav-bal.up{border-color:var(--green);box-shadow:0 0 18px rgba(30,255,0,.35)}
+.nav-bal.down{border-color:#ff6b6b;box-shadow:0 0 18px rgba(255,90,90,.3)}
+
+/* Handlinger */
+.nav-actions{display:flex;align-items:center;gap:4px}
+.nav-item{position:relative}
+.nav-btn{display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 12px;border-radius:10px;background:none;border:1px solid transparent;color:#cfe0f7;cursor:pointer;font-size:13px;font-weight:700;transition:background .15s,color .15s,border-color .15s}
+.nav-btn:hover:not(:disabled),.nav-btn.open{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.1)}
+.nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.nav-btn.muted{color:#ff9a9a}
+
+/* Bruger */
+.nav-user{display:flex;align-items:center;gap:8px;min-height:40px;padding:0 8px 0 4px;margin-left:6px;border-radius:999px;cursor:pointer;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff}
+.nav-user:hover,.nav-user.open{border-color:var(--gold)}
+.nav-user svg{opacity:.7;transition:transform .2s}.nav-user.open svg{transform:rotate(180deg)}
+.nav-avatar{position:relative;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#3b2500;background:linear-gradient(135deg,#ffe27a,#e8a410)}
+.nav-uname{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:800;font-size:14px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);border:2px solid #0a2447;box-sizing:content-box}
+.nav-avatar .dot{position:absolute;right:-3px;bottom:-3px}
+.dot.sync{background:var(--gold);animation:navpulse 1s infinite}.dot.err{background:#ff6b6b}
+@keyframes navpulse{50%{opacity:.35}}
+
+/* Popovers */
+.nav-pop{position:absolute;right:0;top:calc(100% + 10px);z-index:40;width:264px;display:grid;gap:4px;padding:10px;border-radius:14px;
+  background:#0d2342;border:1px solid rgba(255,210,63,.3);box-shadow:0 14px 40px rgba(0,0,0,.6);animation:navpop .14s ease-out}
+@keyframes navpop{from{opacity:0;transform:translateY(-6px)}}
+.nav-pop-head{display:grid;gap:2px;padding:6px 8px 10px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.nav-pop-head b{font-size:16px}.nav-pop-head small{color:var(--mute);font-size:12px;font-weight:600}
+.nav-sync{display:flex;align-items:center;gap:6px}.nav-sync.ok{color:var(--green)!important}.nav-sync.sync{color:var(--gold)!important}.nav-sync.err{color:#ff9a9a!important}
+.nav-pop-head .dot{border:0;width:8px;height:8px}
+.nav-menu-item{white-space:nowrap;display:flex;align-items:center;gap:10px;width:100%;min-height:42px;padding:0 10px;border-radius:10px;background:none;border:0;color:var(--ink);font-weight:700;font-size:14px;cursor:pointer;text-align:left}
+.nav-menu-item small{margin-left:auto;color:var(--mute);font-size:11px;font-weight:600}
+.nav-menu-item:hover:not(:disabled){background:rgba(255,255,255,.08)}
+.nav-menu-item:disabled{opacity:.4;cursor:not-allowed}
+.nav-menu-item.danger{color:#ff9a9a}
+/* Usynlig knap: samme størrelse som et menupunkt, men intet at se og ingen hover-effekt */
+.nav-menu-item.ghost,.nav-menu-item.ghost:hover:not(:disabled),.nav-menu-item.ghost:disabled{background:none;opacity:1;cursor:default;color:transparent;border:0;box-shadow:none;outline:none;user-select:none;-webkit-user-select:none}
+
+/* Lydmenu */
+.nav-switch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer}
+.nav-switch:hover{background:rgba(255,255,255,.06)}
+.nav-switch input{position:absolute;opacity:0;pointer-events:none}
+.nav-switch i{position:relative;width:42px;height:24px;border-radius:999px;background:#2c4a73;transition:background .2s;flex:none}
+.nav-switch i::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.nav-switch input:checked+i{background:var(--green)}.nav-switch input:checked+i::after{transform:translateX(18px)}
+.nav-switch input:focus-visible+i{outline:2px solid var(--gold);outline-offset:2px}
+.nav-vol{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:8px 10px;font-size:14px;font-weight:700}
+.nav-vol input{width:100%;accent-color:var(--gold)}.nav-vol b{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;color:var(--gold);font-size:13px}
+
+/* Mellem skærme: kun ikoner */
+@media(max-width:1000px){
+  .nav-btn span{display:none}.nav-btn{padding:0 11px}
+  .nav-uname{display:none}.nav-user{padding:0 8px 0 4px}
+}
+
+/* Mobil: to rækker. Logo + saldo øverst, ikon-rækken under. */
+@media(max-width:720px){
+  .nav{grid-template-columns:auto 1fr;gap:8px 10px;padding:8px 10px;top:4px;border-radius:14px}
+  .nav-name{font-size:15px}.nav-name em{font-size:9px}.nav-logo{width:32px;height:32px}
+  .nav-bal{justify-self:end;gap:8px;padding:5px 12px;flex-wrap:wrap;justify-content:flex-end}
+  .nb-l{display:none}.nb-v{font-size:19px}.nb-pl{font-size:12px}
+  .nav-actions{grid-column:1/-1;position:relative;justify-content:space-between;gap:2px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08)}
+  .nav-item{position:static}
+  .nav-btn{flex:1;justify-content:center;min-height:42px}
+  .nav-user{flex:none;margin-left:2px}
+  .nav-pop{left:0;right:0;width:auto;top:calc(100% + 8px)}
+}
+@media(max-width:360px){.nav-name em{display:none}.nb-v{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.nav-pop,.dot.sync{animation:none}}
